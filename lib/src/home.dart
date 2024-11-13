@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sisyphus/src/widgets/drawer.dart';
 import 'package:sisyphus/src/widgets/footer.dart';
 import 'package:sisyphus/src/widgets/header.dart';
 import 'package:sisyphus/theme/theme.dart';
@@ -13,10 +14,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
+      key: _scaffoldKey,
       appBar: AppBar(
+        centerTitle: false,
         title: SvgPicture.asset(
           AssetsIcons.logo,
           colorFilter:
@@ -39,12 +44,21 @@ class _HomeState extends State<Home> {
                   AppTheme.getTheme.iconColor, BlendMode.srcIn),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: SvgPicture.asset(
-              AssetsIcons.menuIcon,
-              colorFilter: ColorFilter.mode(
-                  AppTheme.getTheme.iconColor, BlendMode.srcIn),
+          InkWell(
+            onTap: () {
+              if (_scaffoldKey.currentState!.isEndDrawerOpen) {
+                _scaffoldKey.currentState?.closeEndDrawer();
+              } else {
+                _scaffoldKey.currentState?.openEndDrawer();
+              }
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: SvgPicture.asset(
+                AssetsIcons.menuIcon,
+                colorFilter: ColorFilter.mode(
+                    AppTheme.getTheme.iconColor, BlendMode.srcIn),
+              ),
             ),
           ),
         ],
@@ -70,6 +84,7 @@ class _HomeState extends State<Home> {
           ),
         ),
       ),
+      endDrawer: FloatingDrawer(scaffoldKey: _scaffoldKey),
     );
   }
 }
