@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sisyphus/src/widgets/footer.dart';
+import 'package:sisyphus/src/widgets/header.dart';
 import 'package:sisyphus/theme/theme.dart';
 import 'package:sisyphus/util/assets.dart';
 
@@ -18,7 +20,7 @@ class _HomeState extends State<Home> {
         title: SvgPicture.asset(
           AssetsIcons.logo,
           colorFilter:
-              ColorFilter.mode(AppTheme.getTheme().textColor, BlendMode.srcIn),
+              ColorFilter.mode(AppTheme.getTheme.textColor, BlendMode.srcIn),
         ),
         actions: [
           Padding(
@@ -34,7 +36,7 @@ class _HomeState extends State<Home> {
             child: SvgPicture.asset(
               AssetsIcons.globeIcon,
               colorFilter: ColorFilter.mode(
-                  AppTheme.getTheme().iconColor, BlendMode.srcIn),
+                  AppTheme.getTheme.iconColor, BlendMode.srcIn),
             ),
           ),
           Padding(
@@ -42,10 +44,31 @@ class _HomeState extends State<Home> {
             child: SvgPicture.asset(
               AssetsIcons.menuIcon,
               colorFilter: ColorFilter.mode(
-                  AppTheme.getTheme().iconColor, BlendMode.srcIn),
+                  AppTheme.getTheme.iconColor, BlendMode.srcIn),
             ),
           ),
         ],
+      ),
+      bottomSheet: const Footer(),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 8),
+              const Header(),
+              const SizedBox(height: 8),
+              Container(
+                height: 500,
+                color: AppTheme.getTheme.cardColor,
+              ),
+              const SizedBox(height: 8),
+              Container(
+                height: 400,
+                color: AppTheme.getTheme.cardColor,
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

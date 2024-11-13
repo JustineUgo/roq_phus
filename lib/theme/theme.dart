@@ -21,8 +21,8 @@ class BaseTheme {
 }
 
 class AppTheme {
-  static BaseTheme getTheme() {
-    return SchedulerBinding.instance.platformDispatcher.platformBrightness ==
+  static BaseTheme get getTheme =>
+    SchedulerBinding.instance.platformDispatcher.platformBrightness ==
             Brightness.dark
         ? BaseTheme(
             iconColor: const Color(0xFFA7B1BC),
@@ -34,5 +34,5 @@ class AppTheme {
             textColor: const Color(0xFF1C2127),
             cardColor: const Color(0xFFFFFFFF),
           );
-  }
+  
 }
