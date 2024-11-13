@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sisyphus/src/widgets/order_bottomsheet.dart';
 import 'package:sisyphus/theme/theme.dart';
 
 class Footer extends StatelessWidget {
@@ -7,10 +8,7 @@ class Footer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 16,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       decoration: BoxDecoration(
         color: Theme.of(context).bottomSheetTheme.backgroundColor,
         borderRadius: BorderRadius.zero,
@@ -35,7 +33,15 @@ class Footer extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  showModalBottomSheet<dynamic>(
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (BuildContext buildContext) {
+                      return const OrderBottomSheet();
+                    },
+                  );
+                },
                 child: Text(
                   'Buy',
                   style: TextStyle(
@@ -56,7 +62,15 @@ class Footer extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  showModalBottomSheet<dynamic>(
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (BuildContext buildContext) {
+                      return const OrderBottomSheet();
+                    },
+                  );
+                },
                 child: Text(
                   'Sell',
                   style: TextStyle(
@@ -72,25 +86,3 @@ class Footer extends StatelessWidget {
     );
   }
 }
-
-// void displayBottomSheet(
-//   BuildContext context,
-//   TradeType tradeAction,
-// ) {
-//   showModalBottomSheet<dynamic>(
-//     isScrollControlled: true,
-//     context: context,
-//     shape: const RoundedRectangleBorder(
-//       borderRadius: BorderRadius.only(
-//         topLeft: Radius.circular(16),
-//         topRight: Radius.circular(16),
-//       ),
-//     ),
-//     backgroundColor:
-//         context.isDarkMode ? const Color(0xff20252B) : AppColors.white,
-//     barrierColor: Colors.black.withOpacity(0.5),
-//     builder: (BuildContext buildContext) {
-//       return const TradeBottomSheet();
-//     },
-//   );
-// }
