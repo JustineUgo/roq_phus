@@ -18,6 +18,13 @@ class MainSection extends StatefulWidget {
 }
 
 class _MainSectionState extends State<MainSection> {
+  PageController pageController = PageController();
+  int indicatorIndex = 0;
+  List<Widget> indicators = [
+    SvgPicture.asset(AssetsIcons.indicator1),
+    SvgPicture.asset(AssetsIcons.indicator2),
+    SvgPicture.asset(AssetsIcons.indicator3)
+  ];
   @override
   void initState() {
     super.initState();
@@ -93,12 +100,15 @@ class _MainSectionState extends State<MainSection> {
                   setState(() {
                     selectedValue = value!;
                   });
+                  pageController.jumpToPage((value ?? 0).toInt());
                 },
               ),
             ),
           ),
           Expanded(
             child: PageView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: pageController,
               children: [
                 Column(
                   children: [
@@ -345,7 +355,128 @@ class _MainSectionState extends State<MainSection> {
                       ),
                     ),
                   ],
-                )
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: List.generate(3, (index) {
+                              bool isSelected = index == indicatorIndex;
+                              return InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    indicatorIndex = index;
+                                  });
+                                },
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 300),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 11, horizontal: 10),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(4),
+                                    color: isSelected
+                                        ? AppTheme.getTheme.selectionColor
+                                        : null,
+                                  ),
+                                  child: indicators[index],
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 6, horizontal: 8),
+                            decoration: BoxDecoration(
+                              color: AppTheme.getTheme.selectionColor,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: DropdownButton<String>(
+                              isDense: true,
+                              value: '10',
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppTheme.getTheme.textColor),
+                              underline: const SizedBox.shrink(),
+                              icon: Icon(Icons.expand_more,
+                                  color: AppTheme.getTheme.iconColor),
+                              items: <String>['10'].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              onChanged: (value) {},
+                            ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                'Price',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: AppTheme.getTheme.iconColor,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              Text(
+                                '(USDT)',
+                                style: TextStyle(
+                                    fontSize: 10,
+                                    color: AppTheme.getTheme.iconColor,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                'Amounts',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: AppTheme.getTheme.iconColor,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              Text(
+                                '(BTC)',
+                                style: TextStyle(
+                                    fontSize: 10,
+                                    color: AppTheme.getTheme.iconColor,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                'Total',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: AppTheme.getTheme.iconColor,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const Center(
+                  child: Text('Recent trades'),
+                ),
               ],
             ),
           ),
