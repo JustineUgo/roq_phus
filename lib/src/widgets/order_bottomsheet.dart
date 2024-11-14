@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sisyphus/theme/theme.dart';
+import 'package:sisyphus/util/extensions.dart';
 
 class OrderBottomSheet extends StatefulWidget {
   const OrderBottomSheet({super.key});
@@ -12,6 +13,7 @@ class OrderBottomSheet extends StatefulWidget {
 class _OrderBottomSheetState extends State<OrderBottomSheet> {
   int selectedValue = 0;
   String activeOption = 'Limit';
+  String currency = 'NGN';
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +124,9 @@ class _OrderBottomSheetState extends State<OrderBottomSheet> {
               }).toList(),
             ),
             const SizedBox(height: 16),
-            const SizedBox(height: 16),
+            const OrderField(title: 'Limit price'),
+            const OrderField(title: 'Amount'),
+            const OrderField(title: 'Type', trailing: 'Good till cancelled'),
             Row(
               children: [
                 SizedBox(
@@ -172,25 +176,28 @@ class _OrderBottomSheetState extends State<OrderBottomSheet> {
               ],
             ),
             const SizedBox(height: 16),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(9),
-                gradient: const LinearGradient(
-                  colors: [
-                    Color(0xff483BEB),
-                    Color(0xff7847E1),
-                    Color(0xffDD568D),
-                  ],
+            InkWell(
+              onTap: () => Navigator.of(context).pop(),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(9),
+                  gradient: const LinearGradient(
+                    colors: [
+                      Color(0xff483BEB),
+                      Color(0xff7847E1),
+                      Color(0xffDD568D),
+                    ],
+                  ),
                 ),
-              ),
-              child: Center(
-                child: Text('Buy BTC',
-                    style: TextStyle(
-                        color: AppTheme.getTheme.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700)),
+                child: Center(
+                  child: Text('Buy BTC',
+                      style: TextStyle(
+                          color: AppTheme.getTheme.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700)),
+                ),
               ),
             ),
             const SizedBox(height: 15),
@@ -223,18 +230,28 @@ class _OrderBottomSheetState extends State<OrderBottomSheet> {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Row(
                     children: [
-                      Text(
-                        'NGN',
+                      DropdownButton<String>(
+                        value: currency,
                         style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
                             color: AppTheme.getTheme.iconColor),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 2),
-                        child: Icon(Icons.expand_more,
+                        underline: const SizedBox.shrink(),
+                        icon: Icon(Icons.expand_more,
                             color: AppTheme.getTheme.iconColor),
-                      ),
+                        items:
+                            <String>['NGN', 'GHC', 'USD'].map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            currency = value ?? 'NGN';
+                          });
+                        },
+                      )
                     ],
                   ),
                 ])
@@ -289,7 +306,7 @@ class _OrderBottomSheetState extends State<OrderBottomSheet> {
             ),
             const SizedBox(height: 32),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () => Navigator.of(context).pop(),
               style: ButtonStyle(
                   shape: WidgetStatePropertyAll(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8))),
@@ -304,6 +321,72 @@ class _OrderBottomSheetState extends State<OrderBottomSheet> {
             const SizedBox(height: 20),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class OrderField extends StatelessWidget {
+  const OrderField({
+    super.key,
+    required this.title,
+    this.trailing,
+  });
+  final String title;
+  final String? trailing;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: context.isDarkMode
+              ? AppTheme.getTheme.borderColor
+              : AppTheme.getTheme.borderColor.withOpacity(.2),
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Text(
+                '$title ',
+                style: TextStyle(
+                    color: AppTheme.getTheme.iconColor,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500),
+              ),
+              Icon(
+                Icons.info_outline,
+                color: AppTheme.getTheme.iconColor,
+                size: 14,
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Text(
+                trailing ?? '0.00 USD',
+                style: TextStyle(
+                    color: AppTheme.getTheme.iconColor,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500),
+              ),
+              if (trailing != null)
+                Padding(
+                  padding: const EdgeInsets.only(left: 4),
+                  child: Icon(
+                    Icons.expand_more,
+                    size: 12,
+                    color: AppTheme.getTheme.iconColor,
+                  ),
+                )
+            ],
+          ),
+        ],
       ),
     );
   }
