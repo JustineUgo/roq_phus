@@ -12,14 +12,20 @@ environment:
 dependencies:
   candlesticks: ^2.1.0
   cupertino_icons: ^1.0.8
+  dio: ^5.7.0
   flutter:
     sdk: flutter
   flutter_svg: ^2.0.14
+  get_it: ^8.0.2
+  injectable: ^2.5.0
+  toastification: ^2.0.0 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
+  build_runner: ^2.4.13
+  injectable_generator: ^2.6.2
 
 flutter:
   uses-material-design: true

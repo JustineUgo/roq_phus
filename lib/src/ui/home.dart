@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sisyphus/src/widgets/drawer.dart';
-import 'package:sisyphus/src/widgets/footer.dart';
-import 'package:sisyphus/src/widgets/header.dart';
-import 'package:sisyphus/src/widgets/main_section.dart';
-import 'package:sisyphus/src/widgets/order_section.dart';
+import 'package:sisyphus/src/ui/widgets/drawer.dart';
+import 'package:sisyphus/src/ui/widgets/footer.dart';
+import 'package:sisyphus/src/ui/widgets/header.dart';
+import 'package:sisyphus/src/ui/widgets/main_section.dart';
+import 'package:sisyphus/src/ui/widgets/order_section.dart';
 import 'package:sisyphus/theme/theme.dart';
 import 'package:sisyphus/util/assets.dart';
 

@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sisyphus/src/home.dart';
+import 'package:flutter/services.dart';
+import 'package:sisyphus/injection/injection.dart';
+import 'package:sisyphus/src/ui/home.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark));
+  configureDependencies();
   runApp(const MyApp());
 }
 

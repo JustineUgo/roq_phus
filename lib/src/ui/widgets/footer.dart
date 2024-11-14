@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sisyphus/src/widgets/order_bottomsheet.dart';
+import 'package:sisyphus/src/ui/widgets/order_bottomsheet.dart';
 import 'package:sisyphus/theme/theme.dart';
 
 class Footer extends StatelessWidget {
