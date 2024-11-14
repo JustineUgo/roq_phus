@@ -22,7 +22,7 @@ class _MainSectionState extends State<MainSection> {
   PageController pageController = PageController();
 
   int selectedValue = 0;
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -148,8 +148,8 @@ class _ChartWidgetState extends State<ChartWidget> {
                       timeline = time;
                     });
 
-                    BlocProvider.of<CandlestickBloc>(context).add(
-                        GetCandlesticks(interval: timeline));
+                    BlocProvider.of<CandlestickBloc>(context)
+                        .add(GetCandlesticks(interval: timeline));
                   },
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 300),
@@ -195,7 +195,7 @@ class _ChartWidgetState extends State<ChartWidget> {
                   });
 
                   BlocProvider.of<CandlestickBloc>(context)
-                      .add(GetCandlesticks( interval: timeline));
+                      .add(GetCandlesticks(interval: timeline));
                 },
               ),
               Container(
@@ -294,47 +294,70 @@ class _ChartWidgetState extends State<ChartWidget> {
                     builder: (context, state) {
                       bool isLoaded = state is CandlestickLoaded;
                       return Candlesticks(
-                        // TODO: work here
-                        actions: [
-                          ToolBarAction(
-                            width: 80,
-                            child: Text(
-                              'BTC/USD',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 10,
-                                color: AppTheme.getTheme.iconColor,
-                              ),
-                            ),
-                            onPressed: () {},
-                          ),
-                          ...['O', 'H', 'L'].map((property) {
-                            return ToolBarAction(
-                              width: 80,
-                              child: Row(
-                                children: [
-                                  Text(
-                                    '$property ',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 10,
-                                      color: AppTheme.getTheme.iconColor,
-                                    ),
+                        actions: !isLoaded
+                            ? []
+                            : [
+                                ToolBarAction(
+                                  width: 80,
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        margin: const EdgeInsets.only(right: 8),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              width: 2,
+                                              color:
+                                                  AppTheme.getTheme.iconColor),
+                                          borderRadius:
+                                              BorderRadius.circular(6),
+                                        ),
+                                        child: Icon(Icons.expand_more,
+                                            size: 14,
+                                            color: AppTheme.getTheme.textColor),
+                                      ),
+                                      Text(
+                                        'BTC/USD',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 10,
+                                          color: AppTheme.getTheme.iconColor,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    '36,641.54',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 10,
-                                      color: AppTheme.getTheme.green,
+                                  onPressed: () {},
+                                ),
+                                ...[
+                                  {'O': state.candlesticks.first.open},
+                                  {'H': state.candlesticks.first.high},
+                                  {'L': state.candlesticks.first.low}
+                                ].map((property) {
+                                  return ToolBarAction(
+                                    width: 80,
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          '${property.keys.first} ',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 10,
+                                            color: AppTheme.getTheme.iconColor,
+                                          ),
+                                        ),
+                                        Text(
+                                          '${property.values.first}',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 10,
+                                            color: AppTheme.getTheme.green,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ],
-                              ),
-                              onPressed: () {},
-                            );
-                          }),
-                        ],
+                                    onPressed: () {},
+                                  );
+                                }),
+                              ],
                         candles: !isLoaded ? [] : state.candlesticks,
                       );
                     }),

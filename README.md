@@ -1,16 +1,29 @@
-# sisyphus
+# roq_phus
 
-A new Flutter project.
 
-## Getting Started
+## Tools/Packages
 
-This project is a starting point for a Flutter application.
+- State management `Bloc`
+- Dependency Injection `Injectable`
+- Flutter `3.24`
 
-A few resources to get you started if this is your first Flutter project:
+## Installation
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+To get started with the project, follow these steps:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+2. Clone the code:
+   ```bash
+   $ git clone https://github.com/JustineUgo/roq_phus.git
+   $ cd roq_phus
+    ```
+
+2. Run the following commands:
+   ```bash
+   $ make get
+   $ make codegen
+    ```
+3. Run app:
+   ```bash
+   $ flutter run
+    ```
+
