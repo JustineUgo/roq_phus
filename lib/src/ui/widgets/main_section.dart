@@ -1,7 +1,9 @@
 import 'package:candlesticks/candlesticks.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sisyphus/src/ui/bloc/candlestick/candlestick_bloc.dart';
 import 'package:sisyphus/theme/theme.dart';
 import 'package:sisyphus/util/assets.dart';
 import 'package:sisyphus/util/extensions.dart';
@@ -16,6 +18,13 @@ class MainSection extends StatefulWidget {
 }
 
 class _MainSectionState extends State<MainSection> {
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<CandlestickBloc>(context)
+        .add(GetCandlesticks(symbol: 'BTCUSDT', interval: '1h'));
+  }
+
   int selectedValue = 0;
   String timeline = '1D';
   @override
@@ -261,59 +270,63 @@ class _MainSectionState extends State<MainSection> {
                           Container(
                             width: 16,
                             decoration: BoxDecoration(
-                                border: Border(
-                                    right: BorderSide(
-                                        color: AppTheme.getTheme.iconColor
-                                            .withOpacity(.2)))),
+                              border: Border(
+                                right: BorderSide(
+                                    color: AppTheme.getTheme.iconColor
+                                        .withOpacity(.2)),
+                              ),
+                            ),
                           ),
                           Expanded(
-                            child: Candlesticks(
-                              // TODO: work here
-                              actions: [
-                                ToolBarAction(
-                                  width: 80,
-                                  child: Text(
-                                    'BTC/USD',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 10,
-                                      color: AppTheme.getTheme.iconColor,
-                                    ),
-                                  ),
-                                  onPressed: () {},
-                                ),
-                                ...['O', 'H', 'L'].map((property) {
-                                  return ToolBarAction(
-                                    width: 80,
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          '$property ',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 10,
-                                            color: AppTheme.getTheme.iconColor,
-                                          ),
+                            child: BlocConsumer<CandlestickBloc, CandlestickState>(
+                              listener: (context, state){},
+                              builder: (context, state) {
+                                bool isLoaded = state is CandlestickLoaded;
+                                return Candlesticks(
+                                  // TODO: work here
+                                  actions: [
+                                    ToolBarAction(
+                                      width: 80,
+                                      child: Text(
+                                        'BTC/USD',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 10,
+                                          color: AppTheme.getTheme.iconColor,
                                         ),
-                                        Text(
-                                          '36,641.54',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 10,
-                                            color: AppTheme.getTheme.green,
-                                          ),
-                                        ),
-                                      ],
+                                      ),
+                                      onPressed: () {},
                                     ),
-                                    onPressed: () {},
-                                  );
-                                }),
-                              ],
-                              candles: candles
-                                  .map((e) => Candle.fromJson(e))
-                                  .toList()
-                                  .reversed
-                                  .toList(),
+                                    ...['O', 'H', 'L'].map((property) {
+                                      return ToolBarAction(
+                                        width: 80,
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              '$property ',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 10,
+                                                color: AppTheme.getTheme.iconColor,
+                                              ),
+                                            ),
+                                            Text(
+                                              '36,641.54',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 10,
+                                                color: AppTheme.getTheme.green,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        onPressed: () {},
+                                      );
+                                    }),
+                                  ],
+                                  candles: !isLoaded ?[]:  state.candlesticks,
+                                );
+                              }
                             ),
                           ),
                         ],
