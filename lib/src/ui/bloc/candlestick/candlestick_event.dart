@@ -6,9 +6,8 @@ class CandlestickEvent extends Equatable {
 }
 
 class GetCandlesticks extends CandlestickEvent {
-  GetCandlesticks({required this.symbol, required this.interval});
-  final String symbol;
+  GetCandlesticks({required this.interval});
   final String interval;
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [interval];
 }

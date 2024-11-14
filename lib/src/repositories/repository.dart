@@ -3,8 +3,8 @@ import 'package:sisyphus/src/services/network_service.dart';
 import 'package:sisyphus/util/urls.dart';
 
 abstract class Repo {
-  Future<List<dynamic>> getCandlesticks(
-      {required String symbol, required String interval});
+  Future<List<dynamic>> getCandlesticks({required String interval});
+  Future<List<dynamic>> getPrice();
 }
 
 @Singleton(as: Repo)
@@ -13,11 +13,14 @@ class RepoImpl implements Repo {
   RepoImpl({required this.request});
 
   @override
-  Future<List<dynamic>> getCandlesticks(
-      {required String symbol, required String interval}) async {
+  Future<List<dynamic>> getCandlesticks({required String interval}) async {
     return await request.makeRequest(
-        Urls.kLines(symbol: symbol, interval: interval),
+        Urls.kLines(interval: interval),
         mode: NetworkMethod.get);
   }
 
+  @override
+  Future<List<dynamic>> getPrice() async {
+    return await request.makeRequest(Urls.price, mode: NetworkMethod.get);
+  }
 }

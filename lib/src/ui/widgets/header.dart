@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sisyphus/src/ui/bloc/candlestick/candlestick_bloc.dart';
 import 'package:sisyphus/theme/theme.dart';
 import 'package:sisyphus/util/assets.dart';
 
@@ -12,7 +14,7 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: AppTheme.getTheme.cardColor,
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      padding: const EdgeInsets.only(bottom: 16.0, top: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -25,32 +27,48 @@ class Header extends StatelessWidget {
                     const SizedBox(width: 16.0),
                     SvgPicture.asset(AssetsIcons.btuUsd),
                     const SizedBox(width: 8),
-                    Text(
-                      'BTC/USDT',
+                    DropdownButton<String>(
+                      value: 'BTC/USDT',
                       style: TextStyle(
                         color: AppTheme.getTheme.textColor,
                         fontWeight: FontWeight.w500,
                         fontSize: 18,
                       ),
-                    ),
-                    const SizedBox(width: 16),
-                    SvgPicture.asset(
-                      AssetsIcons.dropdownIcon,
-                      colorFilter: ColorFilter.mode(
-                          AppTheme.getTheme.textColor, BlendMode.srcIn),
+                      underline: const SizedBox.shrink(),
+                      icon: Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: SvgPicture.asset(
+                          AssetsIcons.dropdownIcon,
+                          colorFilter: ColorFilter.mode(
+                              AppTheme.getTheme.textColor, BlendMode.srcIn),
+                        ),
+                      ),
+                      items: <String>['BTC/USDT'].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (_) {},
                     ),
                   ],
                 ),
               ),
               const SizedBox(width: 16),
-              Text(
-                '\$20,634',
-                style: TextStyle(
-                  color: AppTheme.getTheme.green,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 18,
-                ),
-              ),
+              BlocConsumer<CandlestickBloc, CandlestickState>(
+                  listener: (context, state) {},
+                  builder: (context, state) {
+                    return state is CandlestickLoaded
+                        ? Text(
+                            '\$${state.symbol.price}',
+                            style: TextStyle(
+                              color: AppTheme.getTheme.green,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18,
+                            ),
+                          )
+                        : const Text('--');
+                  }),
             ],
           ),
           const SizedBox(height: 14.0),

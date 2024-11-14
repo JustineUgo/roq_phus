@@ -24,7 +24,7 @@ class OrderbookBloc extends Bloc<OrderbookEvent, OrderbookState> {
       channel.sink.add(json.encode(
         {
           "method": "SUBSCRIBE",
-          "params": ["${event.symbol.toLowerCase()}@depth"],
+          "params": ["btcusdt@depth"],
           "id": 1
         },
       ));

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sisyphus/src/ui/bloc/candlestick/candlestick_bloc.dart';
+import 'package:sisyphus/src/ui/bloc/orderbook/orderbook_bloc.dart';
 import 'package:sisyphus/src/ui/widgets/drawer.dart';
 import 'package:sisyphus/src/ui/widgets/footer.dart';
 import 'package:sisyphus/src/ui/widgets/header.dart';
@@ -16,6 +19,18 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    super.initState();
+WidgetsBinding.instance.addPostFrameCallback((_){
+      BlocProvider.of<CandlestickBloc>(context)
+        .add(GetCandlesticks(interval: '1D'));
+    BlocProvider.of<OrderbookBloc>(context)
+        .add(SubscribeEvent());
+
+});
+  }
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   @override
   Widget build(BuildContext context) {

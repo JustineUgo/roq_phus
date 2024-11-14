@@ -6,10 +6,9 @@ class OrderbookEvent extends Equatable {
 }
 
 class SubscribeEvent extends OrderbookEvent {
-  SubscribeEvent({required this.symbol});
-  final String symbol;
+  SubscribeEvent();
   @override
-  List<Object?> get props => [symbol];
+  List<Object?> get props => [];
 }
 
 class UnsubscribeEvent extends OrderbookEvent {

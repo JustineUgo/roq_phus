@@ -22,15 +22,7 @@ class _MainSectionState extends State<MainSection> {
   PageController pageController = PageController();
 
   int selectedValue = 0;
-  @override
-  void initState() {
-    super.initState();
-    BlocProvider.of<CandlestickBloc>(context)
-        .add(GetCandlesticks(symbol: 'BTCUSDT', interval: '1D'));
-    BlocProvider.of<OrderbookBloc>(context)
-        .add(SubscribeEvent(symbol: 'BTCUSDT'));
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -157,7 +149,7 @@ class _ChartWidgetState extends State<ChartWidget> {
                     });
 
                     BlocProvider.of<CandlestickBloc>(context).add(
-                        GetCandlesticks(symbol: symbol, interval: timeline));
+                        GetCandlesticks(interval: timeline));
                   },
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 300),
@@ -203,7 +195,7 @@ class _ChartWidgetState extends State<ChartWidget> {
                   });
 
                   BlocProvider.of<CandlestickBloc>(context)
-                      .add(GetCandlesticks(symbol: symbol, interval: timeline));
+                      .add(GetCandlesticks( interval: timeline));
                 },
               ),
               Container(
@@ -373,125 +365,128 @@ class _OrderBookWidgetState extends State<OrderBookWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: List.generate(3, (index) {
-                  bool isSelected = index == indicatorIndex;
-                  return InkWell(
-                    onTap: () {
-                      setState(() {
-                        indicatorIndex = index;
-                      });
-                    },
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 11, horizontal: 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        color: isSelected
-                            ? AppTheme.getTheme.selectionColor
-                            : null,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: List.generate(3, (index) {
+                    bool isSelected = index == indicatorIndex;
+                    return InkWell(
+                      onTap: () {
+                        setState(() {
+                          indicatorIndex = index;
+                        });
+                      },
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 11, horizontal: 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          color: isSelected
+                              ? AppTheme.getTheme.selectionColor
+                              : null,
+                        ),
+                        child: indicators[index],
                       ),
-                      child: indicators[index],
-                    ),
-                  );
-                }).toList(),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-                decoration: BoxDecoration(
-                  color: AppTheme.getTheme.selectionColor,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: DropdownButton<String>(
-                  isDense: true,
-                  value: '10',
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: AppTheme.getTheme.textColor),
-                  underline: const SizedBox.shrink(),
-                  icon: Icon(Icons.expand_more,
-                      color: AppTheme.getTheme.iconColor),
-                  items: <String>['10'].map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
                     );
                   }).toList(),
-                  onChanged: (value) {},
                 ),
-              )
-            ],
-          ),
-          const SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    'Price',
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: AppTheme.getTheme.iconColor,
-                        fontWeight: FontWeight.w500),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+                  decoration: BoxDecoration(
+                    color: AppTheme.getTheme.selectionColor,
+                    borderRadius: BorderRadius.circular(4),
                   ),
-                  Text(
-                    '(USDT)',
+                  child: DropdownButton<String>(
+                    isDense: true,
+                    value: '10',
                     style: TextStyle(
-                        fontSize: 10,
-                        color: AppTheme.getTheme.iconColor,
-                        fontWeight: FontWeight.w500),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: AppTheme.getTheme.textColor),
+                    underline: const SizedBox.shrink(),
+                    icon: Icon(Icons.expand_more,
+                        color: AppTheme.getTheme.iconColor),
+                    items: <String>['10'].map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (value) {},
                   ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    'Amounts',
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: AppTheme.getTheme.iconColor,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  Text(
-                    '(BTC)',
-                    style: TextStyle(
-                        fontSize: 10,
-                        color: AppTheme.getTheme.iconColor,
-                        fontWeight: FontWeight.w500),
-                  ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    'Total',
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: AppTheme.getTheme.iconColor,
-                        fontWeight: FontWeight.w500),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          Expanded(
-            child: BlocConsumer<OrderbookBloc, OrderbookState>(
+                )
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Price',
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: AppTheme.getTheme.iconColor,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    Text(
+                      '(USDT)',
+                      style: TextStyle(
+                          fontSize: 10,
+                          color: AppTheme.getTheme.iconColor,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Amounts',
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: AppTheme.getTheme.iconColor,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    Text(
+                      '(BTC)',
+                      style: TextStyle(
+                          fontSize: 10,
+                          color: AppTheme.getTheme.iconColor,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Total',
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: AppTheme.getTheme.iconColor,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            BlocConsumer<OrderbookBloc, OrderbookState>(
               listener: (context, state) {},
               builder: (context, state) {
                 if (state is OrderbookLoading) {
-                  return Center(
+                  return Container(
+                    height: 200,
+                    alignment: Alignment.center,
                     child: CircularProgressIndicator(
                       color: Theme.of(context).gold,
                     ),
@@ -649,8 +644,8 @@ class _OrderBookWidgetState extends State<OrderBookWidget> {
                 );
               },
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
