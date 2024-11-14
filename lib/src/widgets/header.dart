@@ -64,11 +64,11 @@ class Header extends StatelessWidget {
                   iconSize: 18,
                 ),
                 HeaderBand(
-                  textColor: AppTheme.getTheme.black,
+                  textColor: AppTheme.getTheme.textColor,
                   icon: Icons.north,
                 ),
                 HeaderBand(
-                  textColor: AppTheme.getTheme.black,
+                  textColor: AppTheme.getTheme.textColor,
                   icon: Icons.south,
                 ),
               ],
