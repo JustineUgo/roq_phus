@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sisyphus/injection/injection.dart';
 import 'package:sisyphus/src/ui/bloc/candlestick/candlestick_bloc.dart';
+import 'package:sisyphus/src/ui/bloc/orderbook/orderbook_bloc.dart';
 import 'package:sisyphus/src/ui/home.dart';
 
 void main() {
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<CandlestickBloc>(create: (context)=> CandlestickBloc() ),
+        BlocProvider<OrderbookBloc>(create: (context)=> OrderbookBloc()),
       ],
       child: MaterialApp(
         title: 'Sisyphus',
