@@ -27,63 +27,54 @@ class _OrderBottomSheetState extends State<OrderBottomSheet> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
-              child: Column(
-                children: [
-                  CupertinoSlidingSegmentedControl(
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                    thumbColor:
-                        Theme.of(context).bottomSheetTheme.backgroundColor!,
-                    padding: const EdgeInsets.all(1),
-                    groupValue: selectedValue,
-                    children: {
-                      0: Container(
-                        width: 300,
-                        padding: const EdgeInsets.all(10),
-                        decoration: selectedValue != 0
-                            ? null
-                            : BoxDecoration(
-                                border:
-                                    Border.all(color: AppTheme.getTheme.green),
-                                borderRadius: BorderRadius.circular(8)),
-                        child: Center(
-                          child: Text('Buy',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: selectedValue == 0
-                                      ? AppTheme.getTheme.textColor
-                                      : AppTheme.getTheme.iconColor)),
-                        ),
-                      ),
-                      1: Container(
-                        width: 300,
-                        padding: const EdgeInsets.all(10),
-                        decoration: selectedValue != 1
-                            ? null
-                            : BoxDecoration(
-                                border:
-                                    Border.all(color: AppTheme.getTheme.green),
-                                borderRadius: BorderRadius.circular(8)),
-                        child: Center(
-                          child: Text('Sell',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: selectedValue == 1
-                                      ? AppTheme.getTheme.textColor
-                                      : AppTheme.getTheme.iconColor)),
-                        ),
-                      ),
-                    },
-                    onValueChanged: (value) {
-                      setState(() {
-                        selectedValue = value!;
-                      });
-                    },
+            CupertinoSlidingSegmentedControl(
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              thumbColor: Theme.of(context).bottomSheetTheme.backgroundColor!,
+              padding: const EdgeInsets.all(1),
+              groupValue: selectedValue,
+              children: {
+                0: Container(
+                  width: 300,
+                  padding: const EdgeInsets.all(10),
+                  decoration: selectedValue != 0
+                      ? null
+                      : BoxDecoration(
+                          border: Border.all(color: AppTheme.getTheme.green),
+                          borderRadius: BorderRadius.circular(8)),
+                  child: Center(
+                    child: Text('Buy',
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: selectedValue == 0
+                                ? AppTheme.getTheme.textColor
+                                : AppTheme.getTheme.iconColor)),
                   ),
-                ],
-              ),
+                ),
+                1: Container(
+                  width: 300,
+                  padding: const EdgeInsets.all(10),
+                  decoration: selectedValue != 1
+                      ? null
+                      : BoxDecoration(
+                          border: Border.all(color: AppTheme.getTheme.green),
+                          borderRadius: BorderRadius.circular(8)),
+                  child: Center(
+                    child: Text('Sell',
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: selectedValue == 1
+                                ? AppTheme.getTheme.textColor
+                                : AppTheme.getTheme.iconColor)),
+                  ),
+                ),
+              },
+              onValueChanged: (value) {
+                setState(() {
+                  selectedValue = value!;
+                });
+              },
             ),
             const SizedBox(height: 16),
             Row(
@@ -251,7 +242,7 @@ class _OrderBottomSheetState extends State<OrderBottomSheet> {
                             currency = value ?? 'NGN';
                           });
                         },
-                      )
+                      ),
                     ],
                   ),
                 ])

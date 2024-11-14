@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sisyphus/src/widgets/drawer.dart';
 import 'package:sisyphus/src/widgets/footer.dart';
 import 'package:sisyphus/src/widgets/header.dart';
+import 'package:sisyphus/src/widgets/main_section.dart';
 import 'package:sisyphus/src/widgets/order_section.dart';
 import 'package:sisyphus/theme/theme.dart';
 import 'package:sisyphus/util/assets.dart';
@@ -65,19 +66,16 @@ class _HomeState extends State<Home> {
         ],
       ),
       bottomSheet: const Footer(),
-      body: SafeArea(
+      body: const SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(height: 8),
-              const Header(),
-              const SizedBox(height: 8),
-              Container(
-                height: 500,
-                color: AppTheme.getTheme.cardColor,
-              ),
-              const SizedBox(height: 8),
-              const OrderSection()
+              SizedBox(height: 8),
+              Header(),
+              SizedBox(height: 8),
+              MainSection(),
+              SizedBox(height: 8),
+              OrderSection()
             ],
           ),
         ),
