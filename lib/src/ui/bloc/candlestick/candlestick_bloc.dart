@@ -20,7 +20,7 @@ class CandlestickBloc extends Bloc<CandlestickEvent, CandlestickState> {
   Future _getCandlesticks(GetCandlesticks event, Emitter<CandlestickState> emit) async {
     emit(CandlestickLoading());
     try {
-      List<dynamic> response = await repository.getCandlesticks(symbol: event.symbol, interval: event.interval);
+      List<dynamic> response = await repository.getCandlesticks(symbol: event.symbol, interval: event.interval.toLowerCase());
       List<Candle> candles = response.map((e) => Candle.fromJson(e))
         .toList()
         .reversed

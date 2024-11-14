@@ -22,11 +22,12 @@ class _MainSectionState extends State<MainSection> {
   void initState() {
     super.initState();
     BlocProvider.of<CandlestickBloc>(context)
-        .add(GetCandlesticks(symbol: 'BTCUSDT', interval: '1h'));
+        .add(GetCandlesticks(symbol: symbol, interval: timeline));
   }
 
   int selectedValue = 0;
   String timeline = '1D';
+  String symbol = 'BTCUSDT';
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -124,6 +125,10 @@ class _MainSectionState extends State<MainSection> {
                                 setState(() {
                                   timeline = time;
                                 });
+
+                                BlocProvider.of<CandlestickBloc>(context).add(
+                                    GetCandlesticks(
+                                        symbol: symbol, interval: timeline));
                               },
                               child: AnimatedContainer(
                                 duration: const Duration(milliseconds: 300),
@@ -175,6 +180,10 @@ class _MainSectionState extends State<MainSection> {
                               setState(() {
                                 timeline = value ?? '1D';
                               });
+
+                              BlocProvider.of<CandlestickBloc>(context).add(
+                                  GetCandlesticks(
+                                      symbol: symbol, interval: timeline));
                             },
                           ),
                           Container(
@@ -278,56 +287,59 @@ class _MainSectionState extends State<MainSection> {
                             ),
                           ),
                           Expanded(
-                            child: BlocConsumer<CandlestickBloc, CandlestickState>(
-                              listener: (context, state){},
-                              builder: (context, state) {
-                                bool isLoaded = state is CandlestickLoaded;
-                                return Candlesticks(
-                                  // TODO: work here
-                                  actions: [
-                                    ToolBarAction(
-                                      width: 80,
-                                      child: Text(
-                                        'BTC/USD',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 10,
-                                          color: AppTheme.getTheme.iconColor,
-                                        ),
-                                      ),
-                                      onPressed: () {},
-                                    ),
-                                    ...['O', 'H', 'L'].map((property) {
-                                      return ToolBarAction(
+                            child: BlocConsumer<CandlestickBloc,
+                                    CandlestickState>(
+                                listener: (context, state) {},
+                                builder: (context, state) {
+                                  bool isLoaded = state is CandlestickLoaded;
+                                  return Candlesticks(
+                                    // TODO: work here
+                                    actions: [
+                                      ToolBarAction(
                                         width: 80,
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              '$property ',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 10,
-                                                color: AppTheme.getTheme.iconColor,
-                                              ),
-                                            ),
-                                            Text(
-                                              '36,641.54',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 10,
-                                                color: AppTheme.getTheme.green,
-                                              ),
-                                            ),
-                                          ],
+                                        child: Text(
+                                          'BTC/USD',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 10,
+                                            color: AppTheme.getTheme.iconColor,
+                                          ),
                                         ),
                                         onPressed: () {},
-                                      );
-                                    }),
-                                  ],
-                                  candles: !isLoaded ?[]:  state.candlesticks,
-                                );
-                              }
-                            ),
+                                      ),
+                                      ...['O', 'H', 'L'].map((property) {
+                                        return ToolBarAction(
+                                          width: 80,
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                '$property ',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 10,
+                                                  color: AppTheme
+                                                      .getTheme.iconColor,
+                                                ),
+                                              ),
+                                              Text(
+                                                '36,641.54',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 10,
+                                                  color:
+                                                      AppTheme.getTheme.green,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          onPressed: () {},
+                                        );
+                                      }),
+                                    ],
+                                    candles:
+                                        !isLoaded ? [] : state.candlesticks,
+                                  );
+                                }),
                           ),
                         ],
                       ),
