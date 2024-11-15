@@ -11,6 +11,8 @@
 
 To get started with the project, follow these steps:
 
+1. Turn on a vpn to successfully connect to binance
+
 2. Clone the code:
    ```bash
    $ git clone https://github.com/JustineUgo/roq_phus.git

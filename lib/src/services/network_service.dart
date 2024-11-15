@@ -88,6 +88,10 @@ class NetworkInterceptor extends Interceptor {
 
       default:
         if (err.error is HandshakeException || err.error is SocketException || err.error is TimeoutException) {
+          if(err.response == null){
+          uiService.showToast(type: ToastType.error, text: "Please use a vpn");
+          throw ConnectionException(statusCode: err.response?.statusCode ?? 0, cause: err.type);  
+          }
           uiService.showToast(type: ToastType.error, text: err.response?.data["error"]);
           uiService.showToast(type: ToastType.error, text: err.response?.data["message"]);
           throw ConnectionException(statusCode: err.response?.statusCode ?? 0, cause: err.type);

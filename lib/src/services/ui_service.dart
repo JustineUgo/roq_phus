@@ -16,7 +16,7 @@ class UIService {
               ? ToastificationType.success
               : ToastificationType.error,
       title: Text(text),
-      alignment: Alignment.bottomCenter,
+      alignment: Alignment.topCenter,
       autoCloseDuration: const Duration(seconds: 6),
     );
   }
